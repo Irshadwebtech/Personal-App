@@ -450,4 +450,20 @@ function view(s){var d=document.createElement('div');d.className='mod';d.style.a
 function bk(){var o=JSON.stringify(S);ask('⚙️ Backup / Restore',[{l:'Ye text copy kar ke mehfooz rakhain. Wapas laane ke liye yahan paste kar ke Save dabain.',t:'ta',v:o}],function(v){if(v[0]===o)return;try{var n=JSON.parse(v[0]);if(!n.w||!n.c||!n.s)throw 0;S=n;S.x=S.x||[];S.cy=S.cy||[];S.sa=S.sa||[];save();show();toast('Restore ho gaya ✓')}catch(e){toast('Ghalat backup text');return false}})}
 login();
 if('serviceWorker' in navigator&&location.protocol.indexOf('http')===0)navigator.serviceWorker.register('sw.js').catch(function(){});
-</script></body></html>
+</script><!-- PWA Service Worker Registration -->
+<script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/Personal-App/sw.js", {
+            scope: "/Personal-App/"
+        })
+        .then(registration => {
+            console.log("Sarhad Nan Shop PWA Ready!");
+        })
+        .catch(error => {
+            console.error("PWA Registration Failed:", error);
+        });
+    });
+}
+</script>
+</body></html>
