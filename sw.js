@@ -1,57 +1,25 @@
 
-const CACHE_NAME = "sarhad-nan-shop-v1";
-const APP_URL = "/Personal-App/";
-
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.add(APP_URL);
-    })
-  );
-  self.skipWaiting();
-});
-
-self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(
-        keys
-          .filter((key) => key !== CACHE_NAME)
-          .map((key) => caches.delete(key))
-      )
-    )
-  );
-  self.clients.claim();
-});
-
-self.addEventListener("fetch", (event) => {
-  const request = event.request;
-  const url = new URL(request.url);
-
-  if (
-    request.method !== "GET" ||
-    url.origin !== self.location.origin
-  ) {
-    return;
-  }
-
-  if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          if (response.ok) {
-            const copy = response.clone();
-            caches.open(CACHE_NAME).then((cache) =>
-              cache.put(APP_URL, copy)
-            );
-          }
-          return response;
-        })
-        .catch(async () => {
-          return (
-            await caches.match(APP_URL)
-          ) || Response.error();
-        })
-    );
-  }
-});
+{
+  "id": "/Personal-App/",
+  "name": "Sarhad Nan Shop",
+  "short_name": "Nan Shop",
+  "description": "Sarhad Nan Shop Management System",
+  "start_url": "/Personal-App/",
+  "scope": "/Personal-App/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fbf5ea",
+  "theme_color": "#e8590c",
+  "icons": [
+    {
+      "src": "icon-192.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "icon-512.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
